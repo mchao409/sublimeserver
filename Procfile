@@ -1,0 +1,1 @@
+web: gunicorn sublimeserver.wsgi --log-file -
