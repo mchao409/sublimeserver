@@ -41,6 +41,9 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_ENGINE = 'authenticate.session_backend'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
+# PROJECT_ROOT = os.path.dirname(__file__)
+
+LOGIN_REDIRECT_URL = ''
 
 
 # Application definition
@@ -69,7 +72,9 @@ ROOT_URLCONF = 'sublimeserver.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+        BASE_DIR + "/authenticate/templates/",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +86,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'sublimeserver.wsgi.application'
 

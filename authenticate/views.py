@@ -1,26 +1,45 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from django.contrib.sessions.models import Session
-from django.contrib.sessions.backends.db import SessionStore
+# from django.contrib.sessions.models import Session
+# from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.auth.models import User
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 import os.path
 import os
 import requests
 
+def signup(request):
+	if request.method == 'POST':
+		print("here")
+		form = UserCreationForm(request.POST)
+		print(form)
+		if form.is_valid():
+			user = form.save()
+			login(request,user)
+			print("valid form")
+			return render(request,'home.html')
+	form = UserCreationForm()
+	return render(request, 'signup.html', {'form': form})
+
 
 def index(request):
-	return HttpResponse("Sublime-Text-Sync")
+	return render(request,'home.html')
+
 
 # User first accesses localhost:8000/redirect
 # They go to the dropbox place for authorization
 def redirect_away(request):
+	print("hello")
 	APP_KEY = os.environ["DROPBOX_KEY"]
 	# return redirect("https://google.com")
 	# print(APP_KEY)
 
 	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
 	#   "&response_type=code&redirect_uri=http://localhost:5000/save_token")
-	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
-	#   "&response_type=code&redirect_uri=http://localhost:8000/save_token")
+	return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
+	  "&response_type=code&redirect_uri=http://localhost:8000/save_token")
 	print(APP_KEY)
 	return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
 	  "&response_type=code&redirect_uri=https://pure-sands-96563.herokuapp.com/save_token")
@@ -41,14 +60,17 @@ def save_token(request):
 			"client_secret": APP_SECRET,
 			# "redirect_uri": "http://localhost:5000/save_token"}
 
-			# "redirect_uri": "http://localhost:8000/save_token"}
-			"redirect_uri": "https://pure-sands-96563.herokuapp.com/save_token"}
+			"redirect_uri": "http://localhost:8000/save_token"}
+			# "redirect_uri": "https://pure-sands-96563.herokuapp.com/save_token"}
 	r = requests.post("https://api.dropboxapi.com/oauth2/token", head)
 	token_json = r.json()
 	print(token_json)
 	token = token_json["access_token"]
-	r = requests.get("http://localhost:8001/?token=" + token)
-	return HttpResponse("Success!")
+
+
+
+	# r = requests.get("http://localhost:8001/?token=" + token)
+	return HttpResponse("You have been successfully authenticated to Dropbox")
 
 
 
