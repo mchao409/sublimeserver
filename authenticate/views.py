@@ -46,7 +46,6 @@ def redirect_away(request):
 
 # User is redirected by Dropbox to localhost:8000/save_token/?code=blahblah
 def save_token(request):
-	print("hellohjdssjd")
 	code = request.GET.get("code", "")
 	if code == "":
 		return HttpResponse("Unsuccessful Authorization. Please Try Again")
@@ -66,16 +65,12 @@ def save_token(request):
 	token_json = r.json()
 	print(token_json)
 	token = token_json["access_token"]
-
-
-
 	# r = requests.get("http://localhost:8001/?token=" + token)
 	return HttpResponse("You have been successfully authenticated to Dropbox")
 
 
-
-
-
+def go_to_page(request):
+	return render(request, 'dropbox_saving.html')
 
 
 

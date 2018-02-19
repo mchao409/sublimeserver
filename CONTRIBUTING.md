@@ -6,4 +6,4 @@
 	2. Activate it using `source activate <name_of_your_environment>`
 	3. Run `pip install -r requirements.txt` to install the necessary packages
 	4. To deactivate your virtual environment, run `source deactivate`.
-3. Run the server locally at `localhost:8000` using `python manage.py runserver`.
+4. Run the server locally at `localhost:8000` using `python manage.py runserver`.
