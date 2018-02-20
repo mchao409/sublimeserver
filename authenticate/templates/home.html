@@ -1,21 +1,11 @@
- <head>
-    <meta charset="utf-8">
-    <title>{% block title %}Sublime Synchronization{% endblock %}</title>
-  </head>
-  <body>
-    <header>
-      <h1>My Site</h1>
-      {% if user.is_authenticated %}
-        <p> You are authenticated</p>
-        <a href="{% url 'redirect_away' %}"> Dropbox </a>
+{% extends 'base.html' %}
 
-      {% else %}
-      <p> You are not authenticated</p>
-      {% endif %}
-      <hr>
-    </header>
-    <main>
-      {% block content %}
-      {% endblock %}
-    </main>
-  </body>
+{% block content %}
+<h2> Welcome </h2>
+{% if user.is_authenticated %}
+    <p> You are logged in</p>
+    <a href="{% url 'redirect_away' %}"> Dropbox </a>
+    {% else %}
+    <p> You are not logged in</p>
+{% endif %}
+{% endblock %}

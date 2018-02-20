@@ -3,9 +3,10 @@ from django.http import HttpResponse, JsonResponse
 # from django.contrib.sessions.models import Session
 # from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.models import User
-
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from authenticate.models import Profile
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
 import os.path
 import os
 import requests
@@ -20,13 +21,14 @@ def signup(request):
 			login(request,user)
 			print("valid form")
 			return render(request,'home.html')
-	form = UserCreationForm()
-	return render(request, 'signup.html', {'form': form})
+	return render(request, 'signup.html', {'form': UserCreationForm()})
 
+def log_out(request):
+	logout(request)
+	return render(request,'home.html')
 
 def index(request):
 	return render(request,'home.html')
-
 
 # User first accesses localhost:8000/redirect
 # They go to the dropbox place for authorization
@@ -65,12 +67,29 @@ def save_token(request):
 	token_json = r.json()
 	print(token_json)
 	token = token_json["access_token"]
-	# r = requests.get("http://localhost:8001/?token=" + token)
+	if Profile.objects.filter(user=request.user).exists():
+		request.user.profile.dropbox_token = token
+		request.user.profile.save()
+	else:
+		profile = Profile.objects.create(user=request.user)
+		request.user.profile.dropbox_token = token
+		request.user.profile.save()
 	return HttpResponse("You have been successfully authenticated to Dropbox")
-
 
 def go_to_page(request):
 	return render(request, 'dropbox_saving.html')
+
+def update_profile(request):
+	if request.user.profile:
+		request.user.profile.year = "henfjwefnewj"
+		request.user.profile.save()
+
+	# profile = Profile.objects.create(user=request.user)
+	# user_id = request.user.id
+	# user = User.objects.get(pk=user_id)
+	# request.user.profile.bio = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...'
+	# request.user.profile.save()
+	return HttpResponse(request.user.profile.year)
 
 
 

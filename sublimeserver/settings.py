@@ -43,7 +43,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # PROJECT_ROOT = os.path.dirname(__file__)
 
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/home'
 
 
 # Application definition
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authenticate'
 ]
 
 MIDDLEWARE = [
