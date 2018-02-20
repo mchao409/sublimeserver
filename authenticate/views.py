@@ -19,9 +19,20 @@ def signup(request):
 		if form.is_valid():
 			user = form.save()
 			login(request,user)
-			print("valid form")
 			return render(request,'home.html')
 	return render(request, 'signup.html', {'form': UserCreationForm()})
+
+def log_in(request):
+	if request.POST:
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user:
+			return redirect(request,"home.html")
+		else:
+			return HttpResponse("Error")
+	return redirect("login.html")
+
 
 def log_out(request):
 	logout(request)
