@@ -23,15 +23,17 @@ def signup(request):
 	return render(request, 'signup.html', {'form': UserCreationForm()})
 
 def log_in(request):
+	print(request.session)
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 		if user:
-			return redirect(request,"home.html")
+			login(request,user)
+			return render(request,"home.html")
 		else:
 			return HttpResponse("Error")
-	return redirect("login.html")
+	return render(request,"registration/login.html", {'form': AuthenticationForm()})
 
 
 def log_out(request):
