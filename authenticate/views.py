@@ -84,9 +84,12 @@ def save_token(request):
 	if Profile.objects.filter(user=request.user).exists():
 		request.user.profile.dropbox_token = token
 		request.user.profile.save()
+		print("already created")
+		print(request.user)
 	else:
 		profile = Profile.objects.create(user=request.user)
 		request.user.profile.dropbox_token = token
+		print(request.user)
 		request.user.profile.save()
 	return HttpResponse("You have been successfully authenticated to Dropbox")
 

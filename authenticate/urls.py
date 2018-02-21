@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, re_path
 from authenticate import views as views
+from authenticate import dropbox_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -12,5 +13,11 @@ urlpatterns = [
 	path('update/', views.update_profile,name='update'), # remove?
 	path('logout/', views.log_out, name='logout'), # need to create
 	# path('login', auth_views.LoginView.as_view(), name='login')
-	path('login/', views.log_in,name='login')
+	path('login/', views.log_in,name='login'),
+
+	# Dropbox views
+	path('dropbox/list_folder', dropbox_views.list_folder, name='dropbox_list_folder'),
+
+
+
 ]

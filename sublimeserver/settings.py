@@ -45,8 +45,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 LOGIN_REDIRECT_URL = '/home'
 
-
 # Application definition
+
+AUTH_PROFILE_MODULE = 'authenticate.Profile'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
