@@ -23,33 +23,34 @@ def signup(request):
 	return render(request, 'signup.html', {'form': UserCreationForm()})
 
 def log_in(request):
-	print(request.session)
+	request.session.create()
+	print(request.session.session_key)
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
+		print("username: " + username + " password: " + password)
 		user = authenticate(username=username, password=password)
-		if user:
+		print(user)
+		if user is not None and user != "None":
 			login(request,user)
-			return render(request,"home.html")
+			return redirect("index")
 		else:
-			return HttpResponse("Error")
+			return HttpResponse("Error, please try again")
 	return render(request,"registration/login.html", {'form': AuthenticationForm()})
-
 
 def log_out(request):
 	logout(request)
-	return render(request,'home.html')
+	return redirect("index")
 
 def index(request):
+	print(request.session.session_key)
 	return render(request,'home.html')
 
 # User first accesses localhost:8000/redirect
 # They go to the dropbox place for authorization
 def redirect_away(request):
-	print("hello")
 	APP_KEY = os.environ["DROPBOX_KEY"]
 	# return redirect("https://google.com")
-	# print(APP_KEY)
 
 	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
 	#   "&response_type=code&redirect_uri=http://localhost:5000/save_token")
