@@ -19,7 +19,10 @@ all copies or substantial portions of the Software. -->
   </head>
   <body>
     <header>
-      <h1>Sublime Sync </h1>
+      <h1>Sublime Synchronization</h1>
+
+      <a href="{% url 'index' %}">Home</a>
+      <hr>
       {% if user.is_authenticated %}
         <a href="{% url 'logout' %}">Logout</a>
       {% else %}

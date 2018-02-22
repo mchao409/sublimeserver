@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 	path('', views.index,name='index'),
-	path('home',views.index,name='index'),
+	path('home/',views.index,name='index'),
 	path('redirect/', views.redirect_away, name="redirect_away"),
 	path('save_token/', views.save_token,name="save_token"),
 	path('signup/', views.signup, name='signup'),
@@ -17,7 +17,7 @@ urlpatterns = [
 
 	# Dropbox views
 	path('dropbox/list_folder', dropbox_views.list_folder, name='dropbox_list_folder'),
-
-
+	path('dropbox/update_local', dropbox_views.update_local, name='dropbox_update_local'),
+	path('dropbox/update_remote', dropbox_views.update_remote, name='dropbox_update_remote'),
 
 ]
