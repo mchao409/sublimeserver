@@ -75,8 +75,8 @@ def save_token(request):
 			"client_secret": APP_SECRET,
 			# "redirect_uri": "http://localhost:5000/save_token"}
 
-			"redirect_uri": "http://localhost:8000/save_token"}
-			# "redirect_uri": "https://pure-sands-96563.herokuapp.com/save_token"}
+			# "redirect_uri": "http://localhost:8000/save_token"}
+			"redirect_uri": "https://sublimesync.herokuapp.com/save_token"}
 	r = requests.post("https://api.dropboxapi.com/oauth2/token", head)
 	token_json = r.json()
 	print(token_json)
