@@ -54,11 +54,11 @@ def redirect_away(request):
 
 	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
 	#   "&response_type=code&redirect_uri=http://localhost:5000/save_token")
-	return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
-	  "&response_type=code&redirect_uri=http://localhost:8000/save_token")
+	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
+	#   "&response_type=code&redirect_uri=http://localhost:8000/save_token")
 	print(APP_KEY)
 	return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
-	  "&response_type=code&redirect_uri=https://pure-sands-96563.herokuapp.com/save_token")
+	  "&response_type=code&redirect_uri=https://sublimesync.herokuapp.com/save_token")
 
 # User is redirected by Dropbox to localhost:8000/save_token/?code=blahblah
 def save_token(request):
