@@ -4,7 +4,7 @@
 <h2> Welcome </h2>
 {% if user.is_authenticated %}
     <p> You are logged in</p>
-    <a href="{% url 'redirect_away' %}"> Dropbox </a>
+    <a href="{% url 'dropbox_redirect' %}"> Dropbox </a>
     {% else %}
     <p> You are not logged in</p>
 {% endif %}

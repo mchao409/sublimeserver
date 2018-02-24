@@ -43,55 +43,9 @@ def log_out(request):
 	return redirect("index")
 
 def index(request):
-	print(request.session.session_key)
 	return render(request,'home.html')
 
-# User first accesses localhost:8000/redirect
-# They go to the dropbox place for authorization
-def redirect_away(request):
-	APP_KEY = os.environ["DROPBOX_KEY"]
-	# return redirect("https://google.com")
 
-	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
-	#   "&response_type=code&redirect_uri=http://localhost:5000/save_token")
-	# return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
-	#   "&response_type=code&redirect_uri=http://localhost:8000/save_token")
-	print(APP_KEY)
-	return redirect("https://www.dropbox.com/oauth2/authorize?client_id=" + APP_KEY + 
-	  "&response_type=code&redirect_uri=https://sublimesync.herokuapp.com/save_token")
-
-# User is redirected by Dropbox to localhost:8000/save_token/?code=blahblah
-def save_token(request):
-	code = request.GET.get("code", "")
-	if code == "":
-		return HttpResponse("Unsuccessful Authorization. Please Try Again")
-	# f = open('~/Desktop/CSC-630/open-source/sublimeserver/authenticate/app_info.txt')
-	print(code)
-	APP_KEY = os.environ["DROPBOX_KEY"]
-	APP_SECRET = os.environ["DROPBOX_SECRET"]
-	head = {"code": code,
-			"grant_type": "authorization_code",
-			 "client_id": APP_KEY,
-			"client_secret": APP_SECRET,
-			# "redirect_uri": "http://localhost:5000/save_token"}
-
-			# "redirect_uri": "http://localhost:8000/save_token"}
-			"redirect_uri": "https://sublimesync.herokuapp.com/save_token"}
-	r = requests.post("https://api.dropboxapi.com/oauth2/token", head)
-	token_json = r.json()
-	print(token_json)
-	token = token_json["access_token"]
-	if Profile.objects.filter(user=request.user).exists():
-		request.user.profile.dropbox_token = token
-		request.user.profile.save()
-		print("already created")
-		print(request.user)
-	else:
-		profile = Profile.objects.create(user=request.user)
-		request.user.profile.dropbox_token = token
-		print(request.user)
-		request.user.profile.save()
-	return HttpResponse("You have been successfully authenticated to Dropbox")
 
 def go_to_page(request):
 	return render(request, 'dropbox_saving.html')

@@ -72,7 +72,7 @@ class GoogleRequest:
         headers = {"Authorization": "Bearer " + self.token,
                   "Content-Type": "application/json"}
         data = {"corpora": "user"}
-        return json.loads(GoogleRequest.make_request(url, headers,data=json.dumps(data).encode()))["files"]
+        return json.loads(GoogleRequest.make_request(url, headers,data=json.dumps(data).encode()))
 
     def download(self,name):
         """ Grabs the content of the file currently hosted on Google
