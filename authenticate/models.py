@@ -11,7 +11,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # user = models.OnetoOneField(settings.AUTH_USER_MODEL)
     # bio = models.TextField(max_length=500, blank=True)
-    dropbox_token = models.CharField(max_length=500, blank=True)
+    dropbox_token = models.CharField(max_length=200, blank=True)
+    googledrive_token = models.CharField(max_length=200,blank=True)
+    googledrive_refresh = models.CharField(max_length=200, blank=True)
+
     # birth_date = models.DateField(null=True, blank=True)
 
 @receiver(post_save, sender=User)

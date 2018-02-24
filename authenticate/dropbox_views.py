@@ -47,7 +47,7 @@ def save_token(request):
 		request.user.profile.dropbox_token = token
 		print(request.user)
 		request.user.profile.save()
-	return HttpResponse("You have been successfully authenticated to Dropbox")
+	return render(request,"success.html")
 
 def list_folder(request):
 	token = request.user.profile.dropbox_token
@@ -58,7 +58,6 @@ def update_local(request):
 	token = request.user.profile.dropbox_token
 	req = DropboxRequest(token)
 	return HttpResponse(req.download(request.POST["name"]))
-
 
 def update_remote(request):
 	token = request.user.profile.dropbox_token

@@ -16,6 +16,8 @@ def redirect_away(request):
 	return redirect(url)
 
 def code(request):
+	if request.GET.get("error","") != "":
+		return redirect("index")
 	code = request.GET.get("code", "") + "#"
 	print(code)
 	data = {
@@ -34,14 +36,19 @@ def code(request):
 		profile = request.user.profile
 	profile.googledrive_token = token
 	if 'refresh_token' in r.json():
+		print(r.json()["refresh_token"])
 		profile.googledrive_refresh = r.json()["refresh_token"]
 	now = datetime.datetime.now()
 	d = datetime.timedelta(seconds=40)
 	profile.timesaved = now + d
 	profile.save()
+	print(request.user.profile.googledrive_refresh)
 	print(r.json())
-	return HttpResponse("hi")
+	return render(request,"success.html")
 	# return (requests.post("https://www.googleapis.com/oauth2/v4/token", head))
+
+def get_new_token(request):
+	pass
 
 def save_token(request):
 	return HttpResponse(request.POST.get("token", ""))
