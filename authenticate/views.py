@@ -47,23 +47,6 @@ def index(request):
 
 
 
-def go_to_page(request):
-	return render(request, 'dropbox_saving.html')
-
-def update_profile(request):
-	if request.user.profile:
-		request.user.profile.year = "henfjwefnewj"
-		request.user.profile.save()
-
-	# profile = Profile.objects.create(user=request.user)
-	# user_id = request.user.id
-	# user = User.objects.get(pk=user_id)
-	# request.user.profile.bio = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit...'
-	# request.user.profile.save()
-	return HttpResponse(request.user.profile.year)
-
-
-
 
 
 

@@ -38,7 +38,6 @@ def code(request):
 	now = datetime.datetime.now()
 	d = datetime.timedelta(seconds=40)
 	profile.timesaved = now + d
-
 	profile.save()
 	print(r.json())
 	return HttpResponse("hi")
