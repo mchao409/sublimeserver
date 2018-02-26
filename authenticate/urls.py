@@ -22,5 +22,6 @@ urlpatterns = [
 	# Google Drive views
 	path('googledrive/redirect/', googledrive_views.redirect_away, name='googledrive_redirect'),
 	path('googledrive/code/', googledrive_views.code, name='googledrive_code'),
+	path('googledrive/gettoken', googledrive_views.get_new_token, name='googledrive_gettoken'),
 
 ]
