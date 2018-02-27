@@ -14,6 +14,7 @@ class Profile(models.Model):
     dropbox_token = models.CharField(max_length=200, blank=True)
     googledrive_token = models.CharField(max_length=200,blank=True)
     googledrive_refresh = models.CharField(max_length=200, blank=True)
+    googledrive_token_time = models.CharField(max_length=200, blank=True)
 
     # birth_date = models.DateField(null=True, blank=True)
 

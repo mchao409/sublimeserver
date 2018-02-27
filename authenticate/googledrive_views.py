@@ -58,9 +58,27 @@ def get_new_token(request):
     request.user.profile.googledrive_token = r.json()["access_token"]
     now = datetime.datetime.now()
     d = datetime.timedelta(seconds=40)
-    request.user.profile.timesaved = now + d
+    request.user.profile.googledrive_token_time = now + d
     request.user.profile.save()
     return HttpResponse(request.user.profile.googledrive_token)
+
+def list_folder(request):
+    refresh_token_if_necessary(request)
+
+
+def update_local(request):
+    pass
+
+def update_remote(request):
+    pass
+
+def refresh_token_if_necessary(request):
+    r = requests.get('https://www.googleapis.com/drive/v3/files', 
+                    headers={"Authorization": "Bearer " + request.user.profile.googledrive_token}).json()
+    if "error" in r and "message" in r["error"] and (r["error"]["message"] == "Invalid Credentials"):
+        return get_new_token(request)
+    return HttpResponse(request.user.profile.googledrive_token)
+
 
 
 
