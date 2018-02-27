@@ -1,5 +1,6 @@
 import urllib
 import json
+import requests
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -83,7 +84,7 @@ class GoogleRequest:
         headers = {
             "Authorization": "Bearer " + self.token,
         }
-        return requests.get(url,headers={"Authorization": "Bearer "+token})
+        return requests.get(url,headers={"Authorization": "Bearer " + self.token})
 
     def update_remote(self, name,text):
         """ Updates the content of the file currently hosted on Google with the given file.

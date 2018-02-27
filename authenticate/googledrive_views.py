@@ -1,5 +1,5 @@
 from django.http import JsonResponse, HttpResponse
-from .make_request.DropboxRequest import DropboxRequest
+from .make_request.GoogleRequest import GoogleRequest
 import os
 from django.shortcuts import render, redirect
 import requests
@@ -60,40 +60,32 @@ def get_new_token(request):
     d = datetime.timedelta(seconds=40)
     request.user.profile.googledrive_token_time = now + d
     request.user.profile.save()
-    return HttpResponse(request.user.profile.googledrive_token)
+    return JsonResponse({"token":request.user.profile.googledrive_token}, safe=False)
 
 def list_folder(request):
     refresh_token_if_necessary(request)
-
+    token = request.user.profile.googledrive_token
+    req = GoogleRequest(token)
+    return JsonResponse(req.list_folder(),safe=False)
 
 def update_local(request):
-    pass
+    refresh_token_if_necessary(request)
+    token = request.user.profile.googledrive_token
+    req = GoogleRequest(token)
+    return HttpResponse(req.download(request.POST["name"]))
 
 def update_remote(request):
-    pass
+    refresh_token_if_necessary(request)
+    token = request.user.profile.googledrive_token
+    req = GoogleRequest(token)
+    return HttpResponse(req.update_remote(request.POST["name"],request.POST["text"]))
 
 def refresh_token_if_necessary(request):
     r = requests.get('https://www.googleapis.com/drive/v3/files', 
                     headers={"Authorization": "Bearer " + request.user.profile.googledrive_token}).json()
     if "error" in r and "message" in r["error"] and (r["error"]["message"] == "Invalid Credentials"):
-        return get_new_token(request)
-    return HttpResponse(request.user.profile.googledrive_token)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        get_new_token(request)
+    return HttpResponse("Token")
 
 
 
