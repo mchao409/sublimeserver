@@ -17,11 +17,11 @@ urlpatterns = [
 	path('dropbox/save_token/', dropbox_views.save_token,name="dropbox_save_token"),
 	path('dropbox/list_folder/', dropbox_views.list_folder, name='dropbox_list_folder'),
 	path('dropbox/update_local/', dropbox_views.update_local, name='dropbox_update_local'),
-	path('dropbox/update_remote/', dropbox_views.update_remote, name='dropbox_update_remote'),
+	re_path('dropbox/update_remote/?', dropbox_views.update_remote, name='dropbox_update_remote'),
 
 	# Google Drive views
 	path('googledrive/redirect/', googledrive_views.redirect_away, name='googledrive_redirect'),
-	path('googledrive/code/', googledrive_views.code, name='googledrive_code'),
+	path('googledrive/code', googledrive_views.code, name='googledrive_code'),
 	path('googledrive/gettoken', googledrive_views.get_new_token, name='googledrive_gettoken'),
 	path('googledrive/list_folder', googledrive_views.list_folder, name='googledrive_list_folder'),
 	path('googledrive/update_local', googledrive_views.update_local, name='googledrive_list_folder'),

@@ -10,7 +10,8 @@ def redirect_away(request):
     client_id = os.environ["GOOGLE_KEY"]
     client_secret = os.environ["GOOGLE_SECRET"]
     scope = 'https://www.googleapis.com/auth/drive'
-    redirect_uri ='http://localhost:8000/googledrive/code'
+    redirect_uri ='https://sublimesync.herokuapp.com/googledrive/code'
+    # redirect_uri ='http://localhost:8000/googledrive/code'
     url =('https://accounts.google.com/o/oauth2/v2/auth?response_type=code' +
         '&client_id={}&redirect_uri={}&scope={}&access_type=offline'.format(client_id,redirect_uri,scope))
     return redirect(url)
@@ -24,11 +25,13 @@ def code(request):
     'code': code,
     'client_id': os.environ["GOOGLE_KEY"],
     'client_secret': os.environ["GOOGLE_SECRET"],
-    'redirect_uri': 'http://localhost:8000/googledrive/code',
+    'redirect_uri': 'https://sublimesync.herokuapp.com/googledrive/code',
+    # 'redirect_uri': 'http://localhost:8000/googledrive/code',
     'grant_type': 'authorization_code',
     'access_type': 'offline'
     }
     r = requests.post('https://www.googleapis.com/oauth2/v4/token', data=data)
+    print(r)
     token = r.json()["access_token"]
     if not Profile.objects.filter(user=request.user).exists():
         profile = Profile.objects.create(user=request.user)
@@ -51,7 +54,8 @@ def get_new_token(request):
     data = {'refresh_token': refresh,
             'client_id': os.environ["GOOGLE_KEY"],
             'client_secret': os.environ["GOOGLE_SECRET"],
-            'redirect_uri': 'http://localhost:8000/googledrive/code',
+            'redirect_uri': 'https://sublimesync.herokuapp.com/googledrive/code',
+            # 'redirect_uri': 'http://localhost:8000/googledrive/code',
             'grant_type': 'refresh_token',
             'access_type': 'offline'}
     r = requests.post('https://www.googleapis.com/oauth2/v4/token', data=data)

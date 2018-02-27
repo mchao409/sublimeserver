@@ -45,6 +45,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 LOGIN_REDIRECT_URL = '/home'
 
+APPEND_SLASH = True
+# CSRF_COOKIE_SECURE = True
+
 # Application definition
 
 AUTH_PROFILE_MODULE = 'authenticate.Profile'
