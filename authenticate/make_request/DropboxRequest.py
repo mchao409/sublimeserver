@@ -122,7 +122,7 @@ class DropboxRequest:
         # except IOError:
         #     print ("Could not read file:", path_to_file)
         # raise
-        return requests.post(url,headers=headers,data=text)
+        return requests.post(url,headers=headers,data=text).json()
 
 
 
