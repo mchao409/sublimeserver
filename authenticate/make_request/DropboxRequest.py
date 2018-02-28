@@ -61,7 +61,8 @@ class DropboxRequest:
         for file_info in list_files:
             if file_info["name"].lower() == file_name.lower():
                 return file_info["path_lower"]
-        raise InputError(file_name, "File Not Found")
+        return ""
+        # raise InputError(file_name, "File Not Found")
     
     def list_folder(self,file_path=""):
         """ Gets a list of all files locally hosted in Dropbox
@@ -103,11 +104,19 @@ class DropboxRequest:
 
         url = "https://content.dropboxapi.com/2/files/upload"
         dropbox_path = self.get_file_path(name)
-        headers = {
+        if dropbox_path != "":
+            headers = {
                 "Authorization": "Bearer " + self.token,
                 "Content-Type": "application/octet-stream",
                 "Dropbox-API-Arg": "{\"path\":\"" + dropbox_path + "\",\"mode\":{\".tag\":\"overwrite\"}}"
-        }
+            }
+        else:
+            headers = {
+                "Authorization": "Bearer " + self.token,
+                "Content-Type": "application/octet-stream",
+                "Dropbox-API-Arg": "{\"path\":\"" + dropbox_path + "\",\"mode\":{\".tag\":\"add\"}}"
+            }
+
         # try:
         #     data = open(path_to_file, "rb").read()
         # except IOError:
