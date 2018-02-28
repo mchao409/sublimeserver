@@ -1,6 +1,6 @@
 import urllib
 import json
-
+import requests
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
@@ -122,7 +122,7 @@ class DropboxRequest:
         # except IOError:
         #     print ("Could not read file:", path_to_file)
         # raise
-        return DropboxRequest.make_request(url,headers,text)
+        return requests.post(url,headers=headers,data=text)
 
 
 
