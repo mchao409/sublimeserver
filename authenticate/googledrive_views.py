@@ -73,12 +73,14 @@ def list_folder(request):
     return JsonResponse(req.list_folder(),safe=False)
 
 def update_local(request):
+    print("herajdmsajd")
     refresh_token_if_necessary(request)
     token = request.user.profile.googledrive_token
     req = GoogleRequest(token)
     return HttpResponse(req.download(request.POST["name"]))
 
 def update_remote(request):
+    print("remote google")
     refresh_token_if_necessary(request)
     token = request.user.profile.googledrive_token
     req = GoogleRequest(token)

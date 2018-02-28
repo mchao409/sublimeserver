@@ -15,27 +15,27 @@ class InputError(Error):
         self.expression = expression
         self.message = message
 
-	
+    
 class DropboxRequest:
     def __init__(self,token):
         self.token = token
         
-    @staticmethod
-    def make_request(url, headers, data=None):
-        """ Makes a request to Dropbox's API
-        Args: 
-            url of call, headers of call, optional data
-        Returns: 
-            Request string
-        """
-        if(data == None):
-            req = urllib.request.Request(url,None,headers)
-        else:
-            req = urllib.request.Request(url,data,headers)
-#             req = urllib.request.Request(url,json.dumps(data).encode(),headers)
-        response = urllib.request.urlopen(req)
-        print(response)
-        return response.read().decode("utf-8")
+#     @staticmethod
+#     def make_request(url, headers, data=None):
+#         """ Makes a request to Dropbox's API
+#         Args: 
+#             url of call, headers of call, optional data
+#         Returns: 
+#             Request string
+#         """
+#         if(data == None):
+#             req = urllib.request.Request(url,None,headers)
+#         else:
+#             req = urllib.request.Request(url,data,headers)
+# #             req = urllib.request.Request(url,json.dumps(data).encode(),headers)
+#         response = urllib.request.urlopen(req)
+#         print(response)
+#         return response.read().decode("utf-8")
     
     def get_file_id(self,file_name):
         """ Gets the Dropbox id of a file
@@ -75,7 +75,8 @@ class DropboxRequest:
                   "Content-Type": "application/json"}
         data = {"path": file_path,
                "recursive": True}
-        return json.loads(DropboxRequest.make_request(url, headers,data=json.dumps(data).encode()))["entries"]
+        return requests.post(url, headers=headers, data="{\"path\": \"\", \"recursive\": true}").json()["entries"]
+        # return json.loads(DropboxRequest.make_request(url, headers,data=json.dumps(data).encode()))["entries"]
     
     def download(self,name):
         """ Grabs the content of the file currently hosted on Dropbox
@@ -90,7 +91,7 @@ class DropboxRequest:
             "Authorization": "Bearer " + self.token,
             "Dropbox-API-Arg": "{\"path\":\"" + file_id + "\"}"
         }
-        return DropboxRequest.make_request(url, headers)
+        return requests.post(url, headers=headers)
     
     def update_remote(self, name, text):
         """ Updates the content of the file currently hosted on Dropbox with the given file.
@@ -104,28 +105,21 @@ class DropboxRequest:
 
         url = "https://content.dropboxapi.com/2/files/upload"
         dropbox_path = self.get_file_path(name)
-        if dropbox_path != "":
+        if dropbox_path  != "":
             headers = {
                 "Authorization": "Bearer " + self.token,
                 "Content-Type": "application/octet-stream",
                 "Dropbox-API-Arg": "{\"path\":\"" + dropbox_path + "\",\"mode\":{\".tag\":\"overwrite\"}}"
             }
         else:
+            dropbox_path =  "/" + name 
             headers = {
-                "Authorization": "Bearer " + self.token,
-                "Content-Type": "application/octet-stream",
-                "Dropbox-API-Arg": "{\"path\":\"" + dropbox_path + "\",\"mode\":{\".tag\":\"add\"}}"
-            }
-
+            "Authorization": "Bearer " + self.token,
+            "Content-Type": "application/octet-stream",
+            "Dropbox-API-Arg": "{\"path\": \"" + dropbox_path + "\",\"mode\": \"add\",\"autorename\": true,\"mute\": false}"}
         # try:
         #     data = open(path_to_file, "rb").read()
         # except IOError:
         #     print ("Could not read file:", path_to_file)
         # raise
-        return requests.post(url,headers=headers,data=text).json()
-
-
-
-
-
-            
+        return requests.post(url,headers=headers,data=text).text

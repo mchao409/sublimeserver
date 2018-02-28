@@ -47,7 +47,8 @@ class GoogleRequest:
         for file_info in list_files:
             if file_info["name"].lower() == file_name.lower():
                 return file_info["id"]
-        raise InputError(file_name, "File Not Found")
+        return None
+        # raise InputError(file_name, "File Not Found")
 
 #     def get_file_path(self,file_name):
 #         """ Gets the Google path of a file
@@ -98,11 +99,18 @@ class GoogleRequest:
         curl -X PATCH  -d "@data.txt" -H "Content-Type: multipart/mixed" "https://www.googleapis.com/upload/drive/v3/files/11G-DKcActbNNA4PPCuF_oNLSeHjeitm4unxoXTerrxA?uploadType=media&access_token=ya29.GltlBZeVqPMUbQ61QkFb2Dzxs_kmvsl63AogGI36TDn1YBYfTpZNGKEzRr68FM-UCQQntAb29NVPtg8xCa8n45y1zR9Hz_YVrNMX_CaBCpocdQGYvtHmNmL57hkA"
         """
         file_id = self.get_file_id(name)
-        url = "https://www.googleapis.com/upload/drive/v3/files/" + file_id + "?uploadType=media"
         headers = {
                 "Authorization": "Bearer " + self.token,
                 "Content-Type": "application/octet-stream"
         }
+        if file_id:
+            url = "https://www.googleapis.com/upload/drive/v3/files/" + file_id + "?uploadType=media"
+            return requests.patch(url, headers=headers,data=text)
+
+        else:
+            url = "https://www.googleapis.com/upload/drive/v3?uploadType=media"
+            return requests.post(url, headers=headers, data=text)
+ 
         data = None
 #         try:
 #             data = open(path_to_file, "rb").read()
@@ -113,4 +121,8 @@ class GoogleRequest:
    #      except IOError:
    #          print "Could not read file:", path_to_file
             # raise
-        return requests.patch(url, headers=headers,data=text)
+
+
+
+
+
