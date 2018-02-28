@@ -1,5 +1,7 @@
 ### For Contributors
 
+Contributions are very welcomed. If you haven't already, please take a look at the [plugin](https://github.com/mchao409/sublime-text-file-sync) component of this project.
+
 1. Fork the repository, clone the fork, and `cd` into the folder.
 2. Start a virtual environment with `conda`, `venv`, etc: 
 	1. If using Anaconda, use `conda create --name <name_of_your_environment>`
