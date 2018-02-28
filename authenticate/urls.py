@@ -5,12 +5,12 @@ from authenticate import googledrive_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-	re_path('', views.index,name='index'),
+	path('', views.index,name='index'),
 	re_path('home/?',views.index,name='index'),
 	re_path('signup/?', views.signup, name='signup'),
 	re_path('logout/?', views.log_out, name='logout'), # need to create
 	# path('login', auth_views.LoginView.as_view(), name='login')
-	re_path('login/?', views.log_in,name='login'),
+	path('login', views.log_in,name='login'),
 
 	# Dropbox views
 	re_path('dropbox/redirect/?', dropbox_views.redirect_away, name="dropbox_redirect"),

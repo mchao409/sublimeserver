@@ -23,8 +23,6 @@ def signup(request):
 	return render(request, 'signup.html', {'form': UserCreationForm()})
 
 def log_in(request):
-	request.session.create()
-	print(request.session.session_key)
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
